@@ -156,13 +156,16 @@ var SkillControl = {
 	},
 	
 	getBattleSkillFromFlag: function(active, passive, skilltype, flag) {
-		var i, count;
+		var i, count, skill;
 		var arr = this.getDirectSkillArray(active, skilltype, '');
 		
 		count = arr.length;
 		for (i = 0; i < count; i++) {
 			if (arr[i].skill.getSkillType() === skilltype && arr[i].skill.getSkillValue() & flag) {
-				return this._getBattleSkillInternal(active, passive, arr[i].skill);
+				skill = this._getBattleSkillInternal(active, passive, arr[i].skill);
+				if (skill !== null) {
+					return skill;
+				}
 			}
 		}
 		
@@ -170,13 +173,16 @@ var SkillControl = {
 	},
 	
 	getBattleSkillFromValue: function(active, passive, skilltype, value) {
-		var i, count;
+		var i, count, skill;
 		var arr = this.getDirectSkillArray(active, skilltype, '');
 		
 		count = arr.length;
 		for (i = 0; i < count; i++) {
 			if (arr[i].skill.getSkillType() === skilltype && arr[i].skill.getSkillValue() === value) {
-				return this._getBattleSkillInternal(active, passive, arr[i].skill);
+				skill = this._getBattleSkillInternal(active, passive, arr[i].skill);
+				if (skill !== null) {
+					return skill;
+				}
 			}
 		}
 		

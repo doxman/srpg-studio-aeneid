@@ -2,7 +2,7 @@
 var BaseMessageView = defineObject(BaseObject,
 {
 	_messageLayout: null,
-	_activePos: 0,
+	_activePos: MessagePos.NONE,
 	_isNameDisplayable: false,
 	_isWindowDisplayable: false,
 	_faceId: 0,
@@ -428,7 +428,7 @@ var FaceView = defineObject(BaseObject,
 	_topView: null,
 	_centerView: null,
 	_bottomView: null,
-	_activePos: 0,
+	_activePos: MessagePos.NONE,
 	
 	setupMessageView: function(messageViewParam) {
 		var pos = messageViewParam.pos;

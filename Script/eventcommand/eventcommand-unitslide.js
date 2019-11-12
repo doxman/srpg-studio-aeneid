@@ -88,7 +88,7 @@ var SlideObject = defineObject(BaseObject,
 		this._targetUnit = targetUnit;
 		this._direction = direction;
 		this._interval = pixelIndex + 1;
-		this._max = 8;
+		this._max = this._getMaxValue();
 		this._count = 0;
 	},
 	
@@ -144,6 +144,21 @@ var SlideObject = defineObject(BaseObject,
 		
 		this._targetUnit.setSlideX(this._targetUnit.getSlideX() + dx);
 		this._targetUnit.setSlideY(this._targetUnit.getSlideY() + dy);
+	},
+	
+	_getMaxValue: function() {
+		var i, n;
+		var arr = [4, 2];
+		var count = arr.length;
+		
+		for (i = 0; i < count; i++) {
+			n = Math.floor(GraphicsFormat.MAPCHIP_WIDTH % arr[i]);
+			if (n === 0) {
+				return Math.floor(GraphicsFormat.MAPCHIP_WIDTH / arr[i]);
+			}
+		}
+		
+		return 8;
 	},
 	
 	_playMovingSound: function() {

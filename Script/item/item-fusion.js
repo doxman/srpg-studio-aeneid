@@ -168,5 +168,21 @@ var FusionItemAvailability = defineObject(BaseItemAvailability,
 
 var FusionItemAI = defineObject(BaseItemAI,
 {
+	getItemScore: function(unit, combination) {
+		var score = 160;
+		var fusionData = combination.item.getFusionInfo().getFusionData();
+		
+		if (!FusionControl.isControllable(unit, combination.targetUnit, fusionData)) {
+			return AIValue.MIN_SCORE;
+		}
+		
+		score += combination.targetUnit.getLv();
+		
+		if (fusionData.getFusionType() === FusionType.ATTACK) {
+			score += 50;
+		}
+		
+		return score;
+	}
 }
 );

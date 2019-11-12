@@ -246,6 +246,7 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 {
 	_fusionData: null,
 	_counter: null,
+	_fusionReleaseType: 0,
 	
 	setFusionParam: function(fusionParam) {
 		this._parentUnit = fusionParam.parentUnit;
@@ -255,7 +256,9 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 			return false;
 		}
 		
-		if (this._fusionData.getFusionReleaseType() === FusionReleaseType.ERASE) {
+		this._initFusionReleaseType();
+		
+		if (this._fusionReleaseType === FusionReleaseType.ERASE) {
 			this._direction = fusionParam.direction;
 		}
 		else {
@@ -288,7 +291,7 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 			if (this._moveSlide() !== MoveResult.CONTINUE) {
 				this._slideObject.updateUnitPos();
 				this._slideObject.endSlide();
-				if (this._fusionData.getFusionReleaseType() === FusionReleaseType.ERASE) {
+				if (this._fusionReleaseType === FusionReleaseType.ERASE) {
 					this._slideUnit.setInvisible(true);
 					this.changeCycleMode(FusionCommonMode.ERASE);
 				}
@@ -320,7 +323,7 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 	},
 	
 	_doEndSlideAction: function() {
-		var type = this._fusionData.getFusionReleaseType();
+		var type = this._fusionReleaseType;
 		
 		if (type === FusionReleaseType.WAIT) {
 			if (this._parentUnit.getUnitType() === this._slideUnit.getUnitType() && this._parentUnit.getUnitType() === root.getCurrentSession().getTurnType()) {
@@ -354,6 +357,25 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 		unitRenderParam.alpha = alpha;
 		
 		UnitRenderer.drawScrollUnit(unit, x, y, unitRenderParam);
+	},
+	
+	_initFusionReleaseType: function() {
+		this._fusionReleaseType = this._fusionData.getFusionReleaseType();
+		
+		if (!this._isForceWait()) {
+			return;
+		}
+		
+		// If "Fusion Attack" and "Action after Release" are "Remove", the wait mode is set if the target is not an enemy.
+		if (this._fusionData.getFusionType() === FusionType.ATTACK && this._fusionReleaseType === FusionReleaseType.ERASE) {
+			if (this._slideUnit.getUnitType() !== UnitType.ENEMY) {
+				this._fusionReleaseType = FusionReleaseType.WAIT;
+			}
+		}
+	},
+	
+	_isForceWait: function() {
+		return true;
 	},
 	
 	_validDirection: function(direction) {

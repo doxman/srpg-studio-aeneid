@@ -119,13 +119,8 @@ var FusionControl = {
 		return result;
 	},
 	
-	isItemAllowed: function(unit, targetUnit, fusionData) {	
-		if (fusionData.getFusionType() === FusionType.NORMAL) {
-			return true;
-		}
-		
-		// "Fusion Attack" by item doesn't allow leader.
-		return targetUnit.getImportance() !== ImportanceType.LEADER;
+	isItemAllowed: function(unit, targetUnit, fusionData) {
+		return true;
 	},
 	
 	// "Fusion Attack" which is not the item should be adjacent with each other.
