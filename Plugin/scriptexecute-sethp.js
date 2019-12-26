@@ -12,29 +12,29 @@
 --------------------------------------------------------------------------*/
 
 function setUnitHPToVariable() {
-	var content = root.getEventCommandObject().getOriginalContent();
-	var unit = content.getUnit();
-	var varName = content.getCustomKeyword();
+    var content = root.getEventCommandObject().getOriginalContent();
+    var unit = content.getUnit();
+    var varName = content.getCustomKeyword();
     var tableNumber = content.getValue(0);
-    
-    try {
-	    var variableTable = root.getMetaSession().getVariableTable(tableNumber);
-	    var numVariables = variableTable.getVariableCount();
-	    var hpValue;
-	    for (var i = 0; i < numVariables; i++) {
-	    	var variableName = variableTable.getVariableName(i);
-	    	if (variableName == varName) {
-	    		hpValue = variableTable.getVariable(i);
-	    		break;
-	    	}
-	    }
-	    if (hpValue == null) {
-	    	throw new Error("Could not find variable with name " + varName + " in table " + tableNumber);
-	    }
 
-	    unit.setHP(hpValue);
+    try {
+        var variableTable = root.getMetaSession().getVariableTable(tableNumber);
+        var numVariables = variableTable.getVariableCount();
+        var hpValue;
+        for (var i = 0; i < numVariables; i++) {
+            var variableName = variableTable.getVariableName(i);
+            if (variableName == varName) {
+        	   hpValue = variableTable.getVariable(i);
+        	    break;
+            }
+        }
+        if (hpValue == null) {
+           throw new Error("Could not find variable with name " + varName + " in table " + tableNumber);
+        }
+
+        unit.setHP(hpValue);
     } catch (error) {
     	// Log the error and quit without doing anything else, to prevent the game from crashing.
-    	root.log(error);
+        root.log(error);
     }
 }
