@@ -108,6 +108,8 @@ var BattleSetupScene = defineObject(BaseScene,
 			MediaControl.resetMusicList();
 		}
 		
+		root.getCurrentSession().setStartEndType(StartEndType.NONE);
+		
 		this._setupEdit.openSetupEdit();
 		
 		this._straightFlowBefore.setStraightFlowData(this);

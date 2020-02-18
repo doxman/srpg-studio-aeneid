@@ -8,7 +8,7 @@ var SupportDataSize = {
 	HEIGHT: 56
 };
 
-// This screen is displayed when "Display the memories screen as a Unit Icon List" is enabled in the game option..
+// This screen is displayed when "Display the memories screen as a Unit Icon List" is enabled in the game option.
 
 var SupportScreen = defineObject(BaseScreen,
 {
@@ -323,6 +323,7 @@ var SupportReciverEntity = defineObject(BaseObject,
 		this._receiver = receiver;
 		
 		this._scrollbar = createScrollbarObject(SupportRankScrollbar, this);
+		// Row is fixed at 1. Because SupportReciverWindow detects up and down keys.
 		this._scrollbar.setScrollFormation(this._getMaxCol(), 1);
 		this._scrollbar.setObjectArray(receiver.eventArray);
 		
@@ -459,7 +460,7 @@ var SupportReciverEntity = defineObject(BaseObject,
 		var font = textui.getFont();
 		var pic = textui.getUIImage();
 		
-		TextRenderer.drawFixedTitleText(x, y, title, color, font, TextFormat.LEFT, pic, 3);
+		TextRenderer.drawFixedTitleText(x, y, title, color, font, TextFormat.LEFT, pic, this._getTitlePartsCount());
 	},
 	
 	_getTextUI: function(x, y, title) {
@@ -485,6 +486,10 @@ var SupportReciverEntity = defineObject(BaseObject,
 	
 	_getMaxCol: function() {
 		return SupportReciverBuilder.getMaxRank();
+	},
+	
+	_getTitlePartsCount: function() {
+		return 3;
 	},
 	
 	_playOperationBlockSound: function() {

@@ -741,7 +741,7 @@ var EasyMapUnit = defineObject(BaseObject,
 		
 		if (anime !== null) {
 			pos = LayoutControl.getMapAnimationPos(this._xPixel, this._yPixel, anime);
-			effect = this._easyBattle.createEffect(anime, pos.x, pos.y);
+			effect = this._easyBattle.createEasyEffect(anime, pos.x, pos.y);
 			effect.setAsync(true);
 			this._attackEffect = effect;
 		}
@@ -778,7 +778,7 @@ var EasyMapUnit = defineObject(BaseObject,
 		anime = WeaponEffectControl.getDamageAnime(this._order.getActiveUnit(), isCritical, false);
 		if (anime !== null) {
 			pos = LayoutControl.getMapAnimationPos(this._xPixel, this._yPixel, anime);
-			effect = this._easyBattle.createEffect(anime, pos.x, pos.y);
+			effect = this._easyBattle.createEasyEffect(anime, pos.x, pos.y);
 			effect.setAsync(this._isDamageEffectAsync());
 		}
 		
@@ -794,7 +794,7 @@ var EasyMapUnit = defineObject(BaseObject,
 		
 		if (anime !== null) {
 			pos = LayoutControl.getMapAnimationPos(this._xPixel, this._yPixel, anime);
-			effect = this._easyBattle.createEffect(anime, pos.x, pos.y);
+			effect = this._easyBattle.createEasyEffect(anime, pos.x, pos.y);
 			effect.setAsync(true);
 		}
 		
@@ -844,7 +844,7 @@ var EasyMapUnit = defineObject(BaseObject,
 		
 		if (anime !== null) {
 			pos = LayoutControl.getMapAnimationPos(this._xPixel, this._yPixel, anime);
-			effect = this._easyBattle.createEffect(anime, pos.x, pos.y);
+			effect = this._easyBattle.createEasyEffect(anime, pos.x, pos.y);
 			effect.setAsync(true);
 		}
 	},

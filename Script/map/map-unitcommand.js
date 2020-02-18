@@ -327,7 +327,7 @@ UnitCommand.UnitEvent = defineObject(UnitListCommand,
 		}
 		else {
 			this._changeEvent();
-		}	
+		}
 	},
 	
 	_moveTop: function() {

@@ -19,11 +19,11 @@ ExperienceCalculator._getExperience = function(data, baseExp) {
 		var lv = data.passive.getLv() - data.active.getLv();
 
 		if (data.active.getClass().getClassRank() === ClassRank.HIGH && data.passive.getClass().getClassRank() === ClassRank.LOW) {
-			lv -= 20;
+			lv -= 10;
 		}
 
 		if (data.active.getClass().getClassRank() === ClassRank.LOW && data.passive.getClass().getClassRank() === ClassRank.HIGH) {
-			lv = 20 - data.active.getLv();
+			lv = 10 - data.active.getLv();
 		}
 
 		if (data.passiveHp > 0) {

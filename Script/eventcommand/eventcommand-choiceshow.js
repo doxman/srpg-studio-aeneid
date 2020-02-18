@@ -40,6 +40,7 @@ var ChoiceShowEventCommand = defineObject(BaseEventCommand,
 	
 	_prepareEventCommandMemberData: function() {
 		var i, text, obj;
+		var replacer = createObject(VariableReplacer);
 		var maxMessageCount = this._getMaxMessageCount();
 		var eventCommandData = root.getEventCommandObject();
 		
@@ -53,7 +54,7 @@ var ChoiceShowEventCommand = defineObject(BaseEventCommand,
 				continue;
 			}
 			
-			text = eventCommandData.getMessage(i);
+			text = replacer.startReplace(eventCommandData.getMessage(i));
 			if (text.length !== 0) {
 				obj = {};
 				obj.text = text;

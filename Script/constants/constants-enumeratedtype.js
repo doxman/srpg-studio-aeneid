@@ -411,6 +411,8 @@ var StateAutoRemovalType = {
 	PASSIVEDAMAGE: 3
 };
 
+// If the battle mode is EASY, EASYATTACK is always displayed.
+// If the battle mode is EASY, EASYDAMAGE is displayed when the attack hits.
 var WeaponEffectAnime = {
 	REALDAMAGE: 0,
 	EASYDAMAGE: 1,

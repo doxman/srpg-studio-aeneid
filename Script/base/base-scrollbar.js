@@ -91,7 +91,7 @@ var BaseScrollbar = defineObject(BaseObject,
 	},
 	
 	drawScrollbar: function(xStart, yStart) {
-		var i, j, x, y, isSelect, scrollableData;
+		var i, j, x, y, isSelect;
 		var isLast = false;
 		var objectCount = this.getObjectCount();
 		var width = this._objectWidth + this.getSpaceX();
@@ -135,9 +135,7 @@ var BaseScrollbar = defineObject(BaseObject,
 		}
 		
 		if (this._isActive) {
-			scrollableData = this.getScrollableData();
-			this._edgeCursor.drawHorzCursor(xStart - this.getScrollXPadding(), yStart - this.getScrollYPadding(), scrollableData.isLeft, scrollableData.isRight);
-			this._edgeCursor.drawVertCursor(xStart - this.getScrollXPadding(), yStart - this.getScrollYPadding(), scrollableData.isTop, scrollableData.isBottom);
+			this.drawEdgeCursor(xStart, yStart);
 		}
 	},
 	
@@ -184,6 +182,13 @@ var BaseScrollbar = defineObject(BaseObject,
 		y = y - (32 - this._objectHeight) / 2;
 		
 		this._commandCursor.drawCursor(x, y, isActive, pic);
+	},
+	
+	drawEdgeCursor: function(x, y) {
+		var scrollableData = this.getScrollableData();
+		
+		this._edgeCursor.drawHorzCursor(x - this.getScrollXPadding(), y - this.getScrollYPadding(), scrollableData.isLeft, scrollableData.isRight);
+		this._edgeCursor.drawVertCursor(x - this.getScrollXPadding(), y - this.getScrollYPadding(), scrollableData.isTop, scrollableData.isBottom);
 	},
 	
 	drawDescriptionLine: function(x, y) {

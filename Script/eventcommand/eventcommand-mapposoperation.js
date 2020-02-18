@@ -97,7 +97,7 @@ var MapPosOperationEventCommand = defineObject(BaseEventCommand,
 		var eventCommandData = root.getEventCommandObject();
 		var handle = eventCommandData.getMapChipGraphicsHandle();
 		
-		root.getCurrentSession().setMapChipGraphicsHandle(this._pos.x, this._pos.y, true, handle);
+		root.getCurrentSession().setMapChipGraphicsHandle(this._pos.x, this._pos.y, eventCommandData.isTransparentChip(), handle);
 		
 		return EnterResult.NOTENTER;
 	},
