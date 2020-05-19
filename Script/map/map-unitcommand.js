@@ -1487,6 +1487,7 @@ UnitCommand.Attack = defineObject(UnitListCommand,
 	_weaponSelectMenu: null,
 	_posSelector: null,
 	_isWeaponSelectDisabled: false,
+	_weaponPrev: null,
 	
 	openCommand: function() {
 		this._prepareCommandMemberData();
@@ -1554,6 +1555,7 @@ UnitCommand.Attack = defineObject(UnitListCommand,
 		}
 		else {
 			this._weaponSelectMenu.setMenuTarget(this.getCommandTarget());
+			this._weaponPrev = this._weaponSelectMenu.getSelectWeapon();
 			this.changeCycleMode(AttackCommandMode.TOP);
 		}
 	},
@@ -1601,6 +1603,11 @@ UnitCommand.Attack = defineObject(UnitListCommand,
 			this._startSelection(weapon);
 		}
 		else if (input === ScrollbarInput.CANCEL) {
+			if (this._weaponPrev !== this._weaponSelectMenu.getSelectWeapon()) {
+				// Rebuild the command because the equipped weapon has changed.
+				// For example, if the equipped weapon includes "Steal" as "Optional Skills", "Steal" must be removed from the command.
+				this.rebuildCommand();
+			}
 			return MoveResult.END;
 		}
 		
@@ -1929,10 +1936,8 @@ UnitCommand.Item = defineObject(UnitListCommand,
 			}
 		}
 		else if (result === ItemSelectMenuResult.CANCEL) {
-			if (!this.isCommandDisplayable()) {
-				// All items were discarded, so rebuild it so that the item command isn't displayed.
-				this.rebuildCommand();
-			}
+			// Rebuild the command. This is because the weapons equipped on the unit may have been changed or items may have been discarded.
+			this.rebuildCommand();
 			
 			// If the item is discarded, it's supposed that action has occurred.
 			if (this._itemSelectMenu.isDiscardAction()) {

@@ -1038,7 +1038,6 @@ var ExperienceControl = {
 	}
 };
 
-
 var RestrictedExperienceControl = {
 	obtainExperience: function(unit, getExp) {
 		var i, count, objectArray;
@@ -1052,6 +1051,7 @@ var RestrictedExperienceControl = {
 		count = objectArray.length;
 		for (i = 0; i < count; i++) {
 			if (objectArray[i].value !== 0) {
+				// Count the number of grown parameters.
 				sum++;
 			}
 		}
@@ -1134,6 +1134,8 @@ var RestrictedExperienceControl = {
 			obj.index = i;
 			obj.percent = ParamGroup.getGrowthBonus(unit, i) + ParamGroup.getUnitTotalGrowthBonus(unit, i, weapon);
 			obj.value = ExperienceControl._getGrowthValue(obj.percent);
+			// For the parameters having the same growth rate, the priority of growth is determined by random numbers.
+			obj.rand = root.getRandomNumber() % count;
 			
 			objectArray[i] = obj;
 		}
@@ -1149,6 +1151,15 @@ var RestrictedExperienceControl = {
 				}
 				else if (obj1.percent < obj2.percent) {
 					return 1;
+				}
+				else {
+					// When a parameter with the same growth rate rises, the latter parameter is not given priority.
+					if (obj1.rand > obj2.rand) {
+						return -1;
+					}
+					else if (obj1.rand < obj2.rand) {
+						return 1;
+					}
 				}
 				
 				return 0;

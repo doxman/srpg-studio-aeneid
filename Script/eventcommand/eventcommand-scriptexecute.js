@@ -55,7 +55,7 @@ var ScriptExecuteEventCommand = defineObject(BaseEventCommand,
 		var count = this._eventCommandArray.length;
 		
 		for (i = 0; i < count; i++) {
-			if (this._eventCommandArray[i].getEventCommmandName() === name) {
+			if (this._eventCommandArray[i].getEventCommandName() === name) {
 				return this._eventCommandArray[i];
 			}
 		}

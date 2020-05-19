@@ -52,7 +52,7 @@ var BaseEventCommand = defineObject(BaseObject,
 		return root.isEventSkipMode() || CurrentMap.isTurnSkipMode();
 	},
 	
-	getEventCommmandName: function() {
+	getEventCommandName: function() {
 		// If implement original event command, return the name.
 		return '';
 	}

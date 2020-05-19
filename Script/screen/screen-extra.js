@@ -800,8 +800,8 @@ var SoundRoomMode = {
 
 var SoundRoomScreen = defineObject(BaseScreen,
 {
-	_activeMusicHandle: null,
-	_activeMediaType: -1,
+	_isMusicPlay: false,
+	_isSoundPlay: false,
 	_scrollbar: null,
 	_descriptionChanger : null,
 	
@@ -886,17 +886,23 @@ var SoundRoomScreen = defineObject(BaseScreen,
 	},
 	
 	_moveSelect: function() {
+		var mediaHandle, mediaType;
 		var obj = this._scrollbar.getObject();
-			
+		
 		if (this._scrollbar.isNameDisplayable(obj, 0)) {
-			this._activeMusicHandle = obj.getMediaHandle();
-			this._activeMediaType = obj.getMediaType();
+			mediaHandle = obj.getMediaHandle();
+			mediaType = obj.getMediaType();
 			
-			if (this._activeMediaType === MediaType.MUSIC) {
-				MediaControl.musicPlay(this._activeMusicHandle);
+			if (mediaType === MediaType.MUSIC) {
+				// If the selected music is different from the currently played music, the music is played.
+				if (!mediaHandle.isEqualHandle(root.getMediaManager().getActiveMusicHandle())) {
+					MediaControl.musicPlay(mediaHandle);
+					this._isMusicPlay = true;
+				}
 			}
-			else if (this._activeMediaType === MediaType.SE) {
-				MediaControl.soundPlay(this._activeMusicHandle);
+			else if (mediaType === MediaType.SE) {
+				MediaControl.soundPlay(mediaHandle);
+				this._isSoundPlay = true;
 			}
 		}
 		
@@ -904,10 +910,10 @@ var SoundRoomScreen = defineObject(BaseScreen,
 	},
 	
 	_moveCancel: function() {
-		if (this._activeMediaType === MediaType.MUSIC) {
+		if (this._isMusicPlay) {
 			MediaControl.musicStop(MusicStopType.BACK);
 		}
-		else if (this._activeMediaType === MediaType.SE) {
+		if (this._isSoundPlay) {
 			MediaControl.soundStop();
 		}
 		

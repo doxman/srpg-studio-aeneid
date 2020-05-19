@@ -88,7 +88,7 @@ var AnimeSkillProjector = defineObject(BaseObject,
 	},
 	
 	_getNextAnime: function(skillArray, isRight) {
-		var i, anime, battler, pos, scrollValue, offset, x, y;
+		var i, anime;
 		var index = isRight ? this._rightIndex : this._leftIndex;
 		var object = null;
 		
@@ -97,30 +97,14 @@ var AnimeSkillProjector = defineObject(BaseObject,
 			if (this._battleType === BattleType.REAL) {
 				anime = skillArray[i].getRealAnime();
 				if (anime !== null) {
-					scrollValue = AttackControl.getBattleObject().getAutoScroll().getScrollX();
-					battler = this._battleObject.getBattler(isRight);
-					pos = battler.getEffectPos(anime);
-					x = pos.x;
-					y = pos.y;
-					offset = root.getAnimePreference().getSkillAnimeOffset() + 192;
-					
-					if (x - scrollValue < 0) {
-						x = 0 + offset;
-					}
-					else if (x - scrollValue > RealBattleArea.WIDTH) {
-						x = RealBattleArea.WIDTH - offset;
-					}
-					
-					object = this._battleObject.createEffect(anime, x, y, isRight, false);
+					object = this._createRealSkillEffect(anime, isRight);
 					break;
 				}
 			}
 			else {
 				anime = skillArray[i].getEasyAnime();
 				if (anime !== null) {
-					battler = this._battleObject.getBattler(isRight);
-					pos = LayoutControl.getMapAnimationPos(battler.getMapUnitX(), battler.getMapUnitY(), anime);
-					object = this._battleObject.createEasyEffect(anime, pos.x, pos.y);
+					object = this._createEasySkillEffect(anime, isRight);
 					break;
 				}
 			}	
@@ -141,6 +125,31 @@ var AnimeSkillProjector = defineObject(BaseObject,
 	},
 	
 	_drawAnime: function(anime) {
+	},
+	
+	_createRealSkillEffect: function(anime, isRight) {
+		var battler = this._battleObject.getBattler(isRight);
+		var pos = battler.getEffectPos(anime);
+		var x = pos.x;
+		var y = pos.y;
+		var scrollValue = AttackControl.getBattleObject().getAutoScroll().getScrollX();
+		var offset = root.getAnimePreference().getSkillAnimeOffset() + 192;
+		
+		if (x - scrollValue < 0) {
+			x = 0 + offset;
+		}
+		else if (x - scrollValue > RealBattleArea.WIDTH) {
+			x = RealBattleArea.WIDTH - offset;
+		}
+		
+		return this._battleObject.createEffect(anime, x, y, isRight, false);
+	},
+	
+	_createEasySkillEffect: function(anime, isRight) {
+		var battler = this._battleObject.getBattler(isRight);
+		var pos = LayoutControl.getMapAnimationPos(battler.getMapUnitX(), battler.getMapUnitY(), anime);
+		
+		return this._battleObject.createEasyEffect(anime, pos.x, pos.y);
 	}
 }
 );
