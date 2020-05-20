@@ -181,6 +181,23 @@ function ScriptCall_GetUnitAttackRange(unit)
 	return rangePanel.getUnitAttackRange(unit);
 }
 
+// Called by Simulation function (startSimulation、startSimulationWeapon、startSimulationWeaponPlus). 
+// However, will not be called if disableMapUnit was called beforehand.
+// This function returns a flag indicating which army is treated as a wall.
+// Once control is returned from the Simulation function, UnitFilterFlag.OPTIONAL will be cleared from the unit.
+function ScriptCall_GetSimulationFilterFlag(unit) {
+	var filter;
+	
+	if (SimulationBlockerControl.isCustomFilterApplicable(unit)) {
+		filter = SimulationBlockerControl.getCustomFilter(unit);
+	}
+	else {
+		filter = SimulationBlockerControl.getDefaultFilter(unit);
+	}
+	
+	return filter;
+}
+
 // It's called when the unit moves with an event.
 function ScriptCall_GetUnitMoveCource(unit, xGoal, yGoal)
 {

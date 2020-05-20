@@ -438,8 +438,11 @@ var MarkingPanel = defineObject(BaseObject,
 			return;
 		}
 		
-		// It differs startSimulationWeaponAll func, mark by selecting only a certain unit.
-		// It's high speed compared to startSimulationWeaponAll, but missing may occur.
+		// In the case all units' movement range has been marked by startSimulationWeaponAll,
+		// it is costly to reconstruct the marking just because one unit's current location changed.
+		// startSimulationWeaponPlus constructs the marking by adding to the marking
+		// result of startSimulationWeaponAll,which is quicker to execute.
+		// However, the marking may sometimes be miscalculated.
 		this._simulator.startSimulationWeaponPlus(unit);
 		
 		this._indexArray = this._simulator.getSimulationIndexArray();

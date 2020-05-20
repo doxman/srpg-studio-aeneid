@@ -457,14 +457,8 @@ var RealBattle = defineObject(BaseBattle,
 		
 		this._moveBattlerAnimation();
 		
-		// There are 2 patterns to change the scroll value.
-		// One is a change with moveAutoScroll. 
-		// This is used to return the opponent's view to the view on this side etc.
-		// The other is a change in accordance with the current position of the motion,
-		// such as move and indirect attack etc.
-		// In the latter pattern, the scroll value is explicitly set by calling setScrollX.
-		// However, if auto mode is effective, don't change because scroll with moveAutoScroll should be prioritized.
 		if (this._isMotionBaseScroll) {
+			// Scroll according to the current position of the motion or any thrown weapons.
 			this._autoScroll.setScrollX(this.getActiveBattler().getFocusX());
 		}
 		
@@ -596,10 +590,12 @@ var RealBattle = defineObject(BaseBattle,
 	_changeBattle: function() {
 		var battler = this.getActiveBattler();
 		
-		battler.startBattler();
-		
-		// Set true because motion starts moving.
+		// Set to true since the screen should scroll according to the position of the motion when it starts moving.
+		// This value may be changed to false by battler.startBattler.
+		// One such case is when the first frame is the start of a magic loop.
 		this._isMotionBaseScroll = true;
+		
+		battler.startBattler();
 	}
 }
 );
@@ -1427,6 +1423,7 @@ var RealAutoScroll = defineObject(BaseObject,
 	},
 	
 	setScrollX: function(x) {
+		// The scroll value can only be changed by moveAutoScroll when automatic scrolling is enabled.
 		if (this._isAutoStart) {
 			return;
 		}

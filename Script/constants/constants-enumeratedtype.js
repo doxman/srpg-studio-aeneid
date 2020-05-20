@@ -848,7 +848,8 @@ var CharIllustVisualType = {
 var UnitFilterFlag = {
 	PLAYER: 0x01,
 	ENEMY: 0x02,
-	ALLY: 0x04
+	ALLY: 0x04,
+	OPTIONAL: 0x08
 };
 
 var ClassOptionFlag = {

@@ -243,7 +243,7 @@ var EasyDiagnosticStateFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	_checkNextState: function() {
-		var anime, battler, pos;
+		var anime;
 		var battleObject = this._battleTable.getBattleObject();
 		var stateArray = battleObject.getAttackOrder().getPassiveStateArray();
 		
@@ -256,13 +256,18 @@ var EasyDiagnosticStateFlowEntry = defineObject(BaseFlowEntry,
 			return false;
 		}
 		
-		battler = battleObject.getPassiveBattler();
-		pos = LayoutControl.getMapAnimationPos(battler.getMapUnitX(), battler.getMapUnitY(), anime);
-		this._effect = battleObject.createEasyEffect(anime, pos.x, pos.y);
+		this._effect = this._createEasyStateEffect(battleObject, anime);
 		
 		this._index++;
 		
 		return this._effect !== null;
+	},
+	
+	_createEasyStateEffect: function(battleObject, anime) {
+		var battler = battleObject.getPassiveBattler();
+		var pos = LayoutControl.getMapAnimationPos(battler.getMapUnitX(), battler.getMapUnitY(), anime);
+		
+		return battleObject.createEasyEffect(anime, pos.x, pos.y);
 	}
 }
 );
@@ -587,7 +592,7 @@ var RealDiagnosticStateFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	_checkNextState: function() {
-		var anime, isRight, pos, battlerPassive, offsetPos;
+		var anime;
 		var battleObject = this._battleTable.getBattleObject();
 		var stateArray = battleObject.getAttackOrder().getPassiveStateArray();
 		
@@ -600,6 +605,19 @@ var RealDiagnosticStateFlowEntry = defineObject(BaseFlowEntry,
 			return false;
 		}
 		
+		this._effect = this._createRealStateEffect(battleObject, anime);
+		
+		this._index++;
+		
+		return this._effect !== null;
+	},
+	
+	_createRealStateEffect: function(battleObject, anime) {
+		var isRight;
+		var battlerPassive = battleObject.getPassiveBattler();
+		var pos = battlerPassive.getEffectPos(anime);
+		var offsetPos = EnemyOffsetControl.getOffsetPos(battlerPassive);
+		
 		if (root.getAnimePreference().isEffectDefaultStyle()) {
 			isRight = battleObject.getActiveBattler() === battleObject.getBattler(true);
 		}
@@ -607,14 +625,7 @@ var RealDiagnosticStateFlowEntry = defineObject(BaseFlowEntry,
 			isRight = battleObject.getPassiveBattler() === battleObject.getBattler(true);
 		}
 		
-		battlerPassive = battleObject.getPassiveBattler();
-		pos = battlerPassive.getEffectPos(anime);
-		offsetPos = EnemyOffsetControl.getOffsetPos(battlerPassive);
-		this._effect = battleObject.createEffect(anime, pos.x + offsetPos.x, pos.y + offsetPos.y, isRight, false);
-		
-		this._index++;
-		
-		return this._effect !== null;
+		return battleObject.createEffect(anime, pos.x + offsetPos.x, pos.y + offsetPos.y, isRight, false);
 	}
 }
 );

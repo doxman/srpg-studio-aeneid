@@ -58,12 +58,16 @@ var SaveCallEventCommand = defineObject(BaseEventCommand,
 		}
 		
 		if (!root.getCurrentSession().isMapState(MapStateType.PLAYERFREEACTION)) {
-			unit = root.getCurrentSession().getActiveEventUnit();
+			unit = this._getUnitFromUnitCommand();
 			if (unit !== null) {
 				// If it's executed via unit command, treat the unit as wait.
 				unit.setWait(true);
 			}
 		}
+	},
+	
+	_getUnitFromUnitCommand: function() {
+		return root.getCurrentSession().getActiveEventUnit();
 	},
 	
 	_doCompleteAction: function() {
